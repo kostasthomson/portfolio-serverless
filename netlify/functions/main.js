@@ -1,8 +1,22 @@
 exports.handler = async (event, context) => {
-	console.log("Event: ", event);
-	console.log("Context: ", context);
+	if (event.httpMethod === "OPTIONS") {
+		return {
+			statusCode: 200,
+			headers: {
+				"Access-Control-Allow-Origin": "https://kostasthomson.github.io",
+				"Access-Control-Allow-Headers": "Content-Type",
+				"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+			},
+			body: "",
+		};
+	}
+
+	// Normal GET or POST handler
 	return {
 		statusCode: 200,
+		headers: {
+			"Access-Control-Allow-Origin": "https://kostasthomson.github.io",
+		},
 		body: JSON.stringify({
 			FIREBASE_ApiKey: process.env.FIREBASE_ApiKey,
 			FIREBASE_AuthDomain: process.env.FIREBASE_AuthDomain,
