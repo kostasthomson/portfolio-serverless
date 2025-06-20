@@ -9,7 +9,7 @@ exports.handler = async (event, context) => {
 		if (!origin.startsWith(allowed)) {
 			return {
 				statusCode: 403,
-				body: "Forbidden: Invalid origin",
+				body: "Forbidden: Invalid origin " + origin,
 			};
 		}
 	}
