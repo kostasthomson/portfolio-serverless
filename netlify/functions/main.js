@@ -1,30 +1,22 @@
 exports.handler = async (event, context) => {
-	if (event.httpMethod === "OPTIONS") {
-		return {
-			statusCode: 200,
-			headers: {
-				"Access-Control-Allow-Origin": "https://kostasthomson.github.io",
-				"Access-Control-Allow-Headers": "Content-Type",
-				"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-			},
-			body: "",
-		};
-	}
-
-	const allowedOrigin = "https://kostasthomson.github.io";
+	const allowedOrigin = [
+		"https://kostasthomson.github.io",
+		"https://kthomasiadis.gr/",
+		"http://kthomasiadis.gr/",
+	];
 	const origin = event.headers.origin || event.headers.referer || "";
-	if (!origin.startsWith(allowedOrigin)) {
-		return {
-			statusCode: 403,
-			body: "Forbidden: Invalid origin",
-		};
+	for (const allowed of allowedOrigin) {
+		if (!origin.startsWith(allowed)) {
+			return {
+				statusCode: 403,
+				body: "Forbidden: Invalid origin",
+			};
+		}
 	}
-
-	// Normal GET or POST handler
 	return {
 		statusCode: 200,
 		headers: {
-			"Access-Control-Allow-Origin": "https://kostasthomson.github.io",
+			"Access-Control-Allow-Origin": origin,
 		},
 		body: JSON.stringify({
 			FIREBASE_ApiKey: process.env.FIREBASE_ApiKey,
