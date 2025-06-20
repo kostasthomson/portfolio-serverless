@@ -4,14 +4,16 @@ exports.handler = async (event, context) => {
 		"https://kthomasiadis.gr/",
 		"http://kthomasiadis.gr/",
 	];
+	const allowFlag = true;
 	const origin = event.headers.origin || event.headers.referer || "";
 	for (const allowed of allowedOrigin) {
-		if (!origin.startsWith(allowed)) {
-			return {
-				statusCode: 403,
-				body: "Forbidden: Invalid origin " + origin,
-			};
-		}
+		allowFlag = allowFlag || !origin.startsWith(allowed);
+	}
+	if (!allowFlag) {
+		return {
+			statusCode: 403,
+			body: "Forbidden: Invalid origin " + origin,
+		};
 	}
 	if (event.httpMethod === "OPTIONS") {
 		return {
