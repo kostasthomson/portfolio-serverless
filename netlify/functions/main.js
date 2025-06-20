@@ -4,7 +4,7 @@ exports.handler = async (event, context) => {
 		"https://kthomasiadis.gr/",
 		"http://kthomasiadis.gr/",
 	];
-	const allowFlag = true;
+	let allowFlag = true;
 	const origin = event.headers.origin || event.headers.referer || "";
 	for (const allowed of allowedOrigin) {
 		allowFlag = allowFlag || !origin.startsWith(allowed);
