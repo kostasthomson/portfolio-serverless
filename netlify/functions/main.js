@@ -11,6 +11,15 @@ exports.handler = async (event, context) => {
 		};
 	}
 
+	const allowedOrigin = "https://kostasthomson.github.io";
+	const origin = event.headers.origin || event.headers.referer || "";
+	if (!origin.startsWith(allowedOrigin)) {
+		return {
+			statusCode: 403,
+			body: "Forbidden: Invalid origin",
+		};
+	}
+
 	// Normal GET or POST handler
 	return {
 		statusCode: 200,
